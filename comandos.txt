@@ -1,0 +1,25 @@
+got init <name>:
+Instancia un nuevo repositorio en el servidor y lo identifica con el nombre indicado por <name>.
+
+got add [-A] [name]:
+Permite agregar todos los archivos que no estén registrados o que tengan nuevos cambios al repositorio.
+Ignora los archivos que estén configurados en .gotignore. El usuario puede indicar cada archivo por agregar,
+o puede usar el flag -A para agregar todos los archivos relevantes.
+
+got commit <mensaje>:
+Envía los archivos agregados y pendientes de commit al server. Se debe especificar un mensaje a la hora de
+hacer el commit.
+
+got status <file>:
+Este comando nos va a mostrar cuales archivos han sido cambiados, agregados o eliminados de acuerdo al
+commit anterior.
+
+got rollback <file> <commit>
+Permite regresar un archivo en el tiempo a un commit específico.
+
+got reset <file>
+Deshace cambios locales para un archivo y lo regresa al último commit.
+
+got sync <file>
+Recupera los cambios para un archivo en el server y lo sincroniza con el archivo en el cliente. Si hay cambios
+locales, debe permitirle de alguna forma, que el usuario haga merge de los cambios interactivamente.

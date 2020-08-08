@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/prueba.dir/main.cpp.o  -o prueba  -lcurlpp -lcurl 
