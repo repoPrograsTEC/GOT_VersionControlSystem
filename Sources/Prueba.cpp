@@ -1,8 +1,6 @@
 #include <iostream>
 #include <cstring>
-#include <fstream>
 #include "sha256.h"
-#include <iostream>
 #include <string>
 #include <queue>
 #include <unordered_map>
@@ -140,6 +138,7 @@ std::string sha256(std::string input)
 }
 
 
+
 ///////// HUFFMAN /////////
 // A Tree node
 struct Node
@@ -187,6 +186,29 @@ void decode(Node* root, int &index, string str){
     } else {
         decode(root->right, index, str);
     }
+}
+
+string decompressedData(unordered_map<char, string> huffmanCode, string text){
+
+    string valor;
+    string textoInicial;
+
+    for(int i = 0; i < text.length() ; i++){
+
+        valor += text[i];
+
+        for (auto pair: huffmanCode) {
+            if(valor == pair.second){
+                textoInicial += pair.first;
+                valor = "";
+                break;
+            }
+            //cout << pair.first << " " << pair.second << '\n';
+        }
+    }
+
+
+    return textoInicial;
 }
 
 string compressedData(unordered_map<char, string> huffmanCode, string text){
@@ -267,22 +289,26 @@ Node* buildHuffmanTree(string text){
 
 int main(){
     //TEXTO A COMPRIMIR
-    //string text = "abfabcaecedba";
+    string text = "ldnscjbadcWDWFWFWF2129813";
 
-    string file = "/home/esteban/Escritorio/DataCompresion/Sources/prueba.txt";
-    string output1 = sha256(file);
+    //string file = "/home/esteban/Escritorio/DataCompresion/Sources/prueba.txt";
+    //string output1 = sha256(file);
 
-    cout << "\nsha256('"<< file << "') :   " << output1 << "\n\n";
+    //cout << "\nsha256('"<< file << "') :   " << output1 << "\n\n";
 
     //ÁRBOL
-    Node* HuffmanTree = buildHuffmanTree(output1);
+    Node* HuffmanTree = buildHuffmanTree(text);
 
     //TABLA DEL ÁRBOL
     unordered_map<char, string> huffmanCode;
     unordered_map<char, string> HuffmanTable = encode(HuffmanTree, "", huffmanCode);
 
     //COMPRIMIDO
-    string compressedDataCode = compressedData(HuffmanTable,output1);
+    string compressedDataCode = compressedData(HuffmanTable,text);
+
+    //DESCOMPRIMIDO
+    string decompressed = decompressedData(HuffmanTable,compressedDataCode);
+    cout << "\nDecompressed Data: " + decompressed << endl;
 
     return 0;
 }
