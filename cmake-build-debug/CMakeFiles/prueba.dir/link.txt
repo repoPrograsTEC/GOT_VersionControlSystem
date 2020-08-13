@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/prueba.dir/main.cpp.o  -o prueba  -lcurlpp -lcurl 
+/usr/bin/c++  -g   CMakeFiles/prueba.dir/main.cpp.o CMakeFiles/prueba.dir/Huffmann.cpp.o  -o prueba  -lcurlpp -lcurl 

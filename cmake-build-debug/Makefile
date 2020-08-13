@@ -143,6 +143,33 @@ prueba/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/prueba.dir/build.make CMakeFiles/prueba.dir/build
 .PHONY : prueba/fast
 
+Huffmann.o: Huffmann.cpp.o
+
+.PHONY : Huffmann.o
+
+# target to build an object file
+Huffmann.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/prueba.dir/build.make CMakeFiles/prueba.dir/Huffmann.cpp.o
+.PHONY : Huffmann.cpp.o
+
+Huffmann.i: Huffmann.cpp.i
+
+.PHONY : Huffmann.i
+
+# target to preprocess a source file
+Huffmann.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/prueba.dir/build.make CMakeFiles/prueba.dir/Huffmann.cpp.i
+.PHONY : Huffmann.cpp.i
+
+Huffmann.s: Huffmann.cpp.s
+
+.PHONY : Huffmann.s
+
+# target to generate assembly for a file
+Huffmann.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/prueba.dir/build.make CMakeFiles/prueba.dir/Huffmann.cpp.s
+.PHONY : Huffmann.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -179,6 +206,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... prueba"
+	@echo "... Huffmann.o"
+	@echo "... Huffmann.i"
+	@echo "... Huffmann.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

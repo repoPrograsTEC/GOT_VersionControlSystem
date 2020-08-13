@@ -82,6 +82,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/daniel/CLionProjects/prueba/Huffmann.cpp">
+			<Option target="prueba"/>
+		</Unit>
 		<Unit filename="/home/daniel/CLionProjects/prueba/main.cpp">
 			<Option target="prueba"/>
 		</Unit>

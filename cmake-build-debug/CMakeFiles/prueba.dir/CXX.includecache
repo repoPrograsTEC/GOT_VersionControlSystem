@@ -6,6 +6,22 @@
 
 #IncludeRegexTransform: 
 
+/home/daniel/CLionProjects/prueba/Huffmann.cpp
+iostream
+-
+cstring
+-
+sha256.h
+/home/daniel/CLionProjects/prueba/sha256.h
+string
+-
+queue
+-
+unordered_map
+-
+json.hpp
+/home/daniel/CLionProjects/prueba/json.hpp
+
 /home/daniel/CLionProjects/prueba/json.hpp
 algorithm
 -
@@ -335,6 +351,8 @@ iostream
 -
 cstdlib
 -
+sstream
+-
 curlpp/cURLpp.hpp
 -
 curlpp/Easy.hpp
@@ -347,10 +365,14 @@ curlpp/Infos.hpp
 -
 fstream
 -
-sstream
--
 json.hpp
 /home/daniel/CLionProjects/prueba/json.hpp
 filesystem
+-
+experimental/filesystem
+-
+
+/home/daniel/CLionProjects/prueba/sha256.h
+string
 -
 
