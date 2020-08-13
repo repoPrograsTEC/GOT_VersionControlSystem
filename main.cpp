@@ -473,12 +473,16 @@ bool verificarVersion(const string& file){
     r << repo;
     repo.close();
 
-    int versionLocal = 0;
+    int versionLocal;
     for (auto &it : r["version"]){
-        if (file == it["archivo"]){
-            versionLocal = it["version"];
+        cout << file << "\n";
+        cout << (string)it["name"] << "\n";
+        if (file == ((string)it["name"])){
+            versionLocal = (int)it["version"];
+            cout << "VERSION local: " << versionLocal;
         }
     }
+
     if((versionLocal != 0) && (versionLocal == versionGlobal)){
         return 1;
     }else{
@@ -546,7 +550,7 @@ void commit (string commit){
         for (auto &it : j["Lista"]) {
             if (verificarArchivo(it["name"]) == 1){
 
-                if(verificarVersion(it["name"])){
+                if(verificarVersion(it["name"]) == 1){
 
                     std::ofstream file("send.json");
                     json jl;
@@ -753,14 +757,6 @@ void sync (const string& file){
  *
  */
 
-
-
-
-
-
-
-
-
 int main(int argc, char *argv[])
 {
 
@@ -893,7 +889,7 @@ int main(int argc, char *argv[])
             //INSERTAR AQUÍ COMANDOS DEL MÉTODO rollback
             rollback((string)argv[3], (string)argv[2]);
 
-        } if (comando == "add" && (string)argv[2] == "[-A]"){
+        }if (comando == "add" && (string)argv[2] == "[-A]"){
             cout << "\n***    Añadiendo archivos!   ***" << endl;
             // INGRESAR AQUÍ COMANDOS DE MÉTODO add [-A]
 
