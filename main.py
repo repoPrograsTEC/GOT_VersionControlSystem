@@ -36,6 +36,22 @@ def exist(nameRepo, file):
 		cursor.close() 
 		conn.close()
 
+@app.route('/<string:nameRepo>/<int:id>/getData')
+def getData(nameRepo, id):
+	try:
+		conn = mysql.connect()
+		cursor = conn.cursor(pymysql.cursors.DictCursor)
+		cursor.execute("SELECT * FROM %s_datos WHERE id = '%i'" %(nameRepo, id))
+		empRows = cursor.fetchall()
+		respone = jsonify(empRows)
+		respone.status_code = 200
+		return respone
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close() 
+		conn.close()
+
 @app.route('/<string:nameRepo>/<int:id>')
 def getID(nameRepo, id):
 	try:
@@ -69,7 +85,7 @@ def getLastCommit(nameRepo, file):
 		conn.close()
 
 @app.route('/<string:nameRepo>/<string:file>/<string:commit>')
-def getCommitFile(nameRepo, commit, file):
+def getCommitFile(nameRepo, file, commit):
 	try:
 		conn = mysql.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
@@ -100,6 +116,23 @@ def getCommitStatus(nameRepo, commit):
 		cursor.close() 
 		conn.close()
 
+@app.route('/<string:nameRepo>/<string:file>/statusFile')
+def getStatusFile(nameRepo, file):
+
+	try:
+		conn = mysql.connect()
+		cursor = conn.cursor(pymysql.cursors.DictCursor)
+		cursor.execute("SELECT id, archivo, fecha, commit FROM %s_versiones WHERE archivo = '%s'" %(nameRepo, file))
+		empRows = cursor.fetchall()
+		respone = jsonify(empRows)
+		respone.status_code = 200
+		return respone
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close() 
+		conn.close()
+
 @app.route('/init', methods=['POST'])
 def init_repo():
 	try:
@@ -107,11 +140,15 @@ def init_repo():
 		name = json['name']
 		sqlQuery = "CREATE TABLE `%s_versiones` (`id` int(100) NOT NULL, `archivo` varchar(255) NOT NULL,`fecha` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,`commit` varchar(255) NOT NULL)ENGINE=InnoDB DEFAULT CHARSET=latin1"%(name)
 		print(sqlQuery)
-		sqlQuery2 = "CREATE TABLE `%s_datos` (`archivo` varchar(255) NOT NULL, `contenido` varchar(255) NOT NULL)"%(name)
+		sqlQuery2 = "CREATE TABLE `%s_datos` (`id` int(100) NOT NULL, `archivo` varchar(255) NOT NULL, `contenido` varchar(255) NOT NULL, `comprimido` mediumblob NOT NULL)"%(name)
 
 		sqlQuery3 = "ALTER TABLE `%s_versiones` ADD PRIMARY KEY (`id`)"%(name)
 
 		sqlQuery4 ="ALTER TABLE `%s_versiones` MODIFY `id` int(100) NOT NULL AUTO_INCREMENT"%(name)
+
+		sqlQuery5 = "ALTER TABLE `%s_datos` ADD PRIMARY KEY (`id`)"%(name)
+
+		sqlQuery6 ="ALTER TABLE `%s_datos` MODIFY `id` int(100) NOT NULL AUTO_INCREMENT"%(name)
 
 			
 		conn = mysql.connect()
@@ -120,6 +157,8 @@ def init_repo():
 		cursor.execute(sqlQuery2)
 		cursor.execute(sqlQuery3)
 		cursor.execute(sqlQuery4)
+		cursor.execute(sqlQuery5)
+		cursor.execute(sqlQuery6)
 		
 		
 		conn.commit()
@@ -138,15 +177,21 @@ def add():
 		name = json['name']
 		commit = json['commit']
 
+		contenido = json['contenido']
+		comprimido = json['comprimido']
+
 		validacion = nameRepo and name and commit and request.method == 'POST'
 
 		if validacion:
 			sqlQuery = "INSERT INTO %s_versiones (archivo, commit) VALUES('%s', '%s')" %(nameRepo, name, commit)
+
+			sqlQuery2 = "INSERT INTO %s_datos (archivo, contenido, comprimido) VALUES('%s', '%s','%s')" %(nameRepo, name, contenido, comprimido)
 			print(sqlQuery)
 			
 			conn = mysql.connect()
 			cursor = conn.cursor()
 			cursor.execute(sqlQuery)
+			cursor.execute(sqlQuery2)
 			conn.commit()
 			respone = jsonify('Add correcto')
 			respone.status_code = 200
